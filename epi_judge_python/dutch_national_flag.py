@@ -18,16 +18,39 @@ def dutch_flag_partition(pivot_index: int, A: List[int]) -> None:
 
     while i <= right:
         if A[i] < pivot:
-            swap(left, i)
-            i += 1
+            swap(i, left)
             left += 1
+            i += 1
         elif A[i] > pivot:
-            swap(right, i)
+            swap(i, right)
             right -= 1
-        else: # When A[i] == pivot
-            i += 1 # just increment i
-            
+        else: # A[i] == pivot
+            i += 1
 
+def four_color_flag(A: List[int]) -> None:
+    p0, p1, p2 = 0, 0, 0
+    i = 0
+
+    def swap(i, j):
+        A[i], A[j] = A[j], A[i]
+
+    while i < len(A):
+        if A[i] == 0:
+            swap(i, p0)
+            if p0 < p1: swap(i, p1)
+            if p1 < p2: swap(i, p2)
+            p0 += 1
+            p1 += 1
+            p2 += 1
+        elif A[i] == 1:
+            swap(i, p1)
+            if p1 < p2: swap(i, p2)
+            p1 += 1
+            p2 += 1
+        elif A[i] == 2:
+            swap(i, p2)
+            p2 += 1
+        i += 1
 
 @enable_executor_hook
 def dutch_flag_partition_wrapper(executor, A, pivot_idx):
